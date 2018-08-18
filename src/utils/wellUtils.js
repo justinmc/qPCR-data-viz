@@ -75,22 +75,36 @@ export function getThresholdCycle(cycles) {
 }
 
 /**
- * Takes raw qpcr data and returns data parsed into 2d structure
- * @param {Object<Object[]>} qpcrDataRaw
+ * Takes raw qpcr data and returns data parsed into flat array of wells in order.
+ * @param {Object<Object[]>} qpcrData
  * @returns {Well[]}
  */
-export function parseQpcrData(qpcrDataRaw) {
-  return Object.entries(qpcrDataRaw).reduce((wells, [key, cycles]) => {
-    const position = parsePosition(key);
-    const thresholdCycle = getThresholdCycle(cycles);
-    return wells.concat([{
-      id: key,
-      row: position.row,
-      column: position.column,
-      selected: false,
-      thresholdCycle,
-    }]);
-  }, []);
+export function parseQpcrData(qpcrData) {
+  return Object.entries(qpcrData)
+    .reduce((wells, [key, cycles]) => {
+      const position = parsePosition(key);
+      const thresholdCycle = getThresholdCycle(cycles);
+      return wells.concat([{
+        id: key,
+        row: position.row,
+        column: position.column,
+        selected: false,
+        thresholdCycle,
+      }]);
+    }, [])
+    // Sort, because can't guarantee order of Object.entries
+    .sort((wellA, wellB) => {
+      if (wellA.row === wellB.row && wellA.column === wellB.column) {
+        return 0;
+      }
+      if (wellA.row < wellB.row) {
+        return -1;
+      }
+      if (wellA.row === wellB.row && wellA.column < wellB.column) {
+        return -1;
+      }
+      return 1;
+    });
 }
 
 /**
@@ -112,4 +126,41 @@ export function getDimensions(wells) {
     rows: lastPosition.row,
     columns: lastPosition.column,
   };
+}
+
+/**
+ * Given array of Wells, return a new array of new wells with selected set to false
+ * @param {Well[]}
+ * @returns {Well[]}
+ */
+export function clearSelection(wells) {
+  return wells.map(well => ({
+    ...well,
+    selected: false,
+  }));
+}
+
+/**
+ * Select the wells between the given indices, inclusive.
+ * Indices need not be in order.
+ * Returns new array and new wells where modified.
+ * @param {Well[]} wells
+ * @param {Number} index1
+ * @param {Number} index2
+ * @returns {Well[]}
+ */
+export function selectRange(wells, index1, index2) {
+  // Order the given indices
+  const startIndex = Math.min(index1, index2);
+  const endIndex = Math.max(index1, index2);
+
+  return wells.map((well, index) => {
+    if (index < startIndex || index > endIndex) {
+      return well;
+    }
+    return {
+      ...well,
+      selected: true,
+    };
+  });
 }

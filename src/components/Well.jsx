@@ -22,9 +22,9 @@ export default class Well extends React.PureComponent {
     this.onClickBound = this.onClick.bind(this);
   }
 
-  onClick() {
+  onClick(event) {
     const { onClick, well } = this.props;
-    onClick(well.id);
+    onClick(well.id, event.shiftKey, event.metaKey);
   }
 
   render() {

@@ -77,3 +77,31 @@ describe('getThresholdCycle', () => {
     });
   });
 });
+
+describe.only('parseQpcrData', () => {
+  let qpcrDataFake;
+
+  describe('when given out of order data', () => {
+    beforeEach(() => {
+      qpcrDataFake = {
+        'row:1||column:1': [{ cycle: 1, fluorescence: 104 }],
+        'row:1||column:2': [{ cycle: 1, fluorescence: 104 }],
+        'row:2||column:1': [{ cycle: 1, fluorescence: 104 }],
+        'row:2||column:2': [{ cycle: 1, fluorescence: 104 }],
+        'row:3||column:2': [{ cycle: 1, fluorescence: 104 }],
+        'row:3||column:1': [{ cycle: 1, fluorescence: 104 }],
+      };
+    });
+
+    it('returns wells in order', () => {
+      const wells = wellUtils.parseQpcrData(qpcrDataFake);
+
+      expect(wells[0]).to.have.property('id', 'row:1||column:1');
+      expect(wells[1]).to.have.property('id', 'row:1||column:2');
+      expect(wells[2]).to.have.property('id', 'row:2||column:1');
+      expect(wells[3]).to.have.property('id', 'row:2||column:2');
+      expect(wells[4]).to.have.property('id', 'row:3||column:1');
+      expect(wells[5]).to.have.property('id', 'row:3||column:2');
+    });
+  });
+});
