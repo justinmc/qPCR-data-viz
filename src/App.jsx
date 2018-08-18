@@ -15,6 +15,7 @@ class App extends React.PureComponent {
     super(props);
 
     this.onClickWellBound = this.onClickWell.bind(this);
+    this.onChangeSelectAllBound = this.onChangeSelectAll.bind(this);
 
     this.state = {
       maxCycle: null,
@@ -28,6 +29,25 @@ class App extends React.PureComponent {
     this.setState({
       maxCycle: parseMaxCycles(qpcrData),
       wells,
+    });
+  }
+
+  /**
+   * Handle changing the "select all" checkbox
+   */
+  onChangeSelectAll() {
+    const { wells } = this.state;
+    const allAreSelected = wells.every(well => well.selected);
+
+    // We're either selecting all or unselecting all
+    let selected = false;
+    if (!allAreSelected) {
+      selected = true;
+    }
+
+    const nextWells = selectRange(wells, 0, wells.length - 1, selected);
+    this.setState({
+      wells: nextWells,
     });
   }
 
@@ -61,7 +81,7 @@ class App extends React.PureComponent {
     if (shiftKey && !metaKey) {
       nextSelectionCursor = typeof selectionCursor === 'number'
         ? selectionCursor : wellIndex;
-      nextWells = selectRange(nextWells, nextSelectionCursor, wellIndex);
+      nextWells = selectRange(nextWells, nextSelectionCursor, wellIndex, true);
 
     // Otherwise just toggle the clicked well
     } else {
@@ -87,6 +107,7 @@ class App extends React.PureComponent {
         <div className="panel-left">
           <WellsGrid
             maxCycle={maxCycle}
+            onChangeSelectAll={this.onChangeSelectAllBound}
             onClickWell={this.onClickWellBound}
             wells={wells}
           />

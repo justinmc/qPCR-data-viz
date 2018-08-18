@@ -141,7 +141,7 @@ export function clearSelection(wells) {
 }
 
 /**
- * Select the wells between the given indices, inclusive.
+ * Set selected for the wells between the given indices, inclusive.
  * Indices need not be in order.
  * Returns new array and new wells where modified.
  * @param {Well[]} wells
@@ -149,7 +149,7 @@ export function clearSelection(wells) {
  * @param {Number} index2
  * @returns {Well[]}
  */
-export function selectRange(wells, index1, index2) {
+export function selectRange(wells, index1, index2, selected) {
   // Order the given indices
   const startIndex = Math.min(index1, index2);
   const endIndex = Math.max(index1, index2);
@@ -160,7 +160,7 @@ export function selectRange(wells, index1, index2) {
     }
     return {
       ...well,
-      selected: true,
+      selected,
     };
   });
 }

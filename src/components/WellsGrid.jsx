@@ -8,7 +8,13 @@ import {
 import { getLetterIndex } from '../utils/displayUtils';
 import '../styles/WellsGrid.css';
 
-export default function WellsGrid({ maxCycle, onClickWell, wells }) {
+export default function WellsGrid({
+  maxCycle,
+  onChangeSelectAll,
+  onClickWell,
+  wells,
+}) {
+  const allAreSelected = wells.every(well => well.selected);
   const dimensions = getDimensions(wells);
 
   // The top numbered header grid items
@@ -60,7 +66,11 @@ export default function WellsGrid({ maxCycle, onClickWell, wells }) {
           gridColumn: 1,
         }}
       >
-        Checkbox
+        <input
+          type="checkbox"
+          checked={allAreSelected}
+          onChange={onChangeSelectAll}
+        />
       </div>
       {headers}
       {sides}
@@ -80,6 +90,7 @@ export default function WellsGrid({ maxCycle, onClickWell, wells }) {
 
 WellsGrid.propTypes = {
   maxCycle: PropTypes.number.isRequired,
+  onChangeSelectAll: PropTypes.func.isRequired,
   onClickWell: PropTypes.func.isRequired,
   wells: PropTypes.arrayOf(wellPropType).isRequired,
 };
