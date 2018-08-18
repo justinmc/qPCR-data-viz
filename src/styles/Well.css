@@ -1,7 +1,14 @@
 .well {
   height: 20px;
   width: 20px;
-  border: 1px #ffffff solid;
+  border: 2px #ffffff solid;
   border-radius: 20px;
   box-shadow: #aaaaaa 0 2px 8px;
+  padding: 2px;
+  cursor: pointer;
+}
+
+.well.selected {
+  border: 4px #ffc20b solid;
+  padding: 0;
 }

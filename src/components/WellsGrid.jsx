@@ -8,7 +8,7 @@ import {
 import { getLetterIndex } from '../utils/displayUtils';
 import '../styles/WellsGrid.css';
 
-export default function WellsGrid({ maxCycle, wells }) {
+export default function WellsGrid({ maxCycle, onClickWell, wells }) {
   const dimensions = getDimensions(wells);
 
   // The top numbered header grid items
@@ -69,6 +69,7 @@ export default function WellsGrid({ maxCycle, wells }) {
           <Well
             key={well.id}
             maxCycle={maxCycle}
+            onClick={onClickWell}
             well={well}
           />
         ))
@@ -79,5 +80,6 @@ export default function WellsGrid({ maxCycle, wells }) {
 
 WellsGrid.propTypes = {
   maxCycle: PropTypes.number.isRequired,
+  onClickWell: PropTypes.func.isRequired,
   wells: PropTypes.arrayOf(wellPropType).isRequired,
 };

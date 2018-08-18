@@ -8,9 +8,11 @@ import {
 } from './utils/wellUtils';
 import './App.css';
 
-class App extends React.Component {
+class App extends React.PureComponent {
   constructor(props) {
     super(props);
+
+    this.onClickWellBound = this.onClickWell.bind(this);
 
     this.state = {
       maxCycle: null,
@@ -26,6 +28,26 @@ class App extends React.Component {
     });
   }
 
+  onClickWell(wellId) {
+    const { wells } = this.state;
+
+    const wellIndex = wells
+      .findIndex(well => well.id === wellId);
+    const well = wells[wellIndex];
+
+    // TODO more complicated unselection of all if click, toggle, ctrl/shift select
+    const nextWell = {
+      ...well,
+      selected: true,
+    };
+    const nextWells = [...wells];
+    nextWells[wellIndex] = nextWell;
+
+    this.setState({
+      wells: nextWells,
+    });
+  }
+
   render() {
     const { maxCycle, wells } = this.state;
 
@@ -34,6 +56,7 @@ class App extends React.Component {
         <div className="panel-left">
           <WellsGrid
             maxCycle={maxCycle}
+            onClickWell={this.onClickWellBound}
             wells={wells}
           />
         </div>
