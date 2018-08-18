@@ -3,10 +3,10 @@ import WellsGrid from './components/WellsGrid';
 import WellsSelection from './components/WellsSelection';
 import qpcrData from './qpcr-data.json';
 import {
-  clearSelection,
   parseMaxCycles,
   parseQpcrData,
   selectRange,
+  selectRowOrColumn,
 } from './utils/wellUtils';
 import './App.css';
 
@@ -14,8 +14,9 @@ class App extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.onClickWellBound = this.onClickWell.bind(this);
     this.onChangeSelectAllBound = this.onChangeSelectAll.bind(this);
+    this.onClickRowOrColumnBound = this.onClickRowOrColumn.bind(this);
+    this.onClickWellBound = this.onClickWell.bind(this);
 
     this.state = {
       maxCycle: null,
@@ -52,6 +53,30 @@ class App extends React.PureComponent {
   }
 
   /**
+   * Handle clicking on the side row/column labels to select
+   * @param {Number} index of row or column
+   * @param {Boolean} isRow whether row or column
+   * @param {Boolean} metaKey if metaKey was held at click
+   */
+  onClickRowOrColumn(index, isRow, metaKey) {
+    const { wells } = this.state;
+
+    // Meta adds to selection (shift not supported here)
+    let nextWells;
+    if (metaKey) {
+      nextWells = [...wells];
+    } else {
+      nextWells = selectRange(wells, 0, wells.length - 1, false);
+    }
+
+    nextWells = selectRowOrColumn(nextWells, index, isRow, true);
+    this.setState({
+      selectionCursor: null,
+      wells: nextWells,
+    });
+  }
+
+  /**
    * Handle clicking on a well to select.
    * There are a lot of UX concerns just for handling how shift/meta behave here,
    * but I think this way is simple good enough for almost all use cases.
@@ -73,7 +98,7 @@ class App extends React.PureComponent {
 
     // Otherwise clear the existing selection
     } else {
-      nextWells = clearSelection(wells);
+      nextWells = selectRange(wells, 0, wells.length - 1, false);
     }
 
     // Shift selects a range of wells
@@ -108,6 +133,7 @@ class App extends React.PureComponent {
           <WellsGrid
             maxCycle={maxCycle}
             onChangeSelectAll={this.onChangeSelectAllBound}
+            onClickRowOrColumn={this.onClickRowOrColumnBound}
             onClickWell={this.onClickWellBound}
             wells={wells}
           />

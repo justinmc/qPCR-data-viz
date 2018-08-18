@@ -6,11 +6,14 @@ import {
   wellPropType,
 } from '../utils/wellUtils';
 import { getLetterIndex } from '../utils/displayUtils';
+import WellsGridLabel from './WellsGridLabel';
 import '../styles/WellsGrid.css';
 
+// The big grid of wells
 export default function WellsGrid({
   maxCycle,
   onChangeSelectAll,
+  onClickRowOrColumn,
   onClickWell,
   wells,
 }) {
@@ -23,16 +26,15 @@ export default function WellsGrid({
     const displayColumn = column + 1; // 1 indexed
     const gridColumn = column + 2; // 1 indexed and offset by 1
     headers.push(
-      <div
+      <WellsGridLabel
         className="header"
-        key={gridColumn}
-        style={{
-          gridRow: 1,
-          gridColumn,
-        }}
-      >
-        {displayColumn}
-      </div>,
+        gridColumn={gridColumn}
+        gridRow={1}
+        index={column}
+        key={column}
+        label={displayColumn.toString()}
+        onClick={onClickRowOrColumn}
+      />,
     );
   }
 
@@ -41,16 +43,16 @@ export default function WellsGrid({
   for (let row = 0; row < dimensions.rows; row += 1) {
     const gridRow = row + 2; // 1 indexed and offset by 1
     sides.push(
-      <div
+      <WellsGridLabel
         className="side"
+        gridColumn={1}
+        gridRow={gridRow}
+        index={row}
+        isRow
         key={row}
-        style={{
-          gridRow,
-          gridColumn: 1,
-        }}
-      >
-        {getLetterIndex(row)}
-      </div>,
+        label={getLetterIndex(row)}
+        onClick={onClickRowOrColumn}
+      />,
     );
   }
 
@@ -91,6 +93,7 @@ export default function WellsGrid({
 WellsGrid.propTypes = {
   maxCycle: PropTypes.number.isRequired,
   onChangeSelectAll: PropTypes.func.isRequired,
+  onClickRowOrColumn: PropTypes.func.isRequired,
   onClickWell: PropTypes.func.isRequired,
   wells: PropTypes.arrayOf(wellPropType).isRequired,
 };

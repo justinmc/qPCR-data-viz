@@ -12,3 +12,10 @@
 .wells-grid>.well {
   grid-area: main;
 }
+
+.wells-grid .row-column-button {
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  outline: none;
+}

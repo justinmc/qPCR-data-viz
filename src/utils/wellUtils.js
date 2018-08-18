@@ -129,18 +129,6 @@ export function getDimensions(wells) {
 }
 
 /**
- * Given array of Wells, return a new array of new wells with selected set to false
- * @param {Well[]}
- * @returns {Well[]}
- */
-export function clearSelection(wells) {
-  return wells.map(well => ({
-    ...well,
-    selected: false,
-  }));
-}
-
-/**
  * Set selected for the wells between the given indices, inclusive.
  * Indices need not be in order.
  * Returns new array and new wells where modified.
@@ -158,6 +146,28 @@ export function selectRange(wells, index1, index2, selected) {
     if (index < startIndex || index > endIndex) {
       return well;
     }
+    return {
+      ...well,
+      selected,
+    };
+  });
+}
+
+/**
+ * Return new wells array with wells in the indicated row/column selected.
+ * @param {Well[]} wells
+ * @param {Number} index the row or column to select
+ * @param {Boolean} isRow if true select a row, otherwise column
+ * @param {Boolean} selected
+ */
+export function selectRowOrColumn(wells, index, isRow, selected) {
+  const rowOrColumn = isRow ? 'row' : 'column';
+  const wellIndex = index + 1; // adjust for 0 vs. 1 indexing
+  return wells.map((well) => {
+    if (well[rowOrColumn] !== wellIndex) {
+      return well;
+    }
+
     return {
       ...well,
       selected,
