@@ -50,3 +50,12 @@ export function getGradientValue(colorStart, colorEnd, fraction) {
   );
   return { r: x, g: y, b: z };
 }
+
+/**
+ * Round the number to 2 places after the decimal point.
+ * @param {Number} number
+ * @returns {Number}
+ */
+export function roundToTwo(number) {
+  return Math.round(number * 100) / 100;
+}

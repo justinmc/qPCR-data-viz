@@ -1,0 +1,28 @@
+.wells-selection {
+  display: table;
+  padding: 0 32px;
+  width: 100%;
+}
+
+.wells-selection .selection-header {
+  display: table-header-group;
+  font-weight: bold;
+}
+.wells-selection .selection-header>.selection-cell {
+  border-bottom: 3px #e6e6e6 solid;
+}
+
+.wells-selection .selection-cell {
+  display: table-cell;
+  min-width: 120px;
+  height: 36px;
+  vertical-align: middle;
+  border-bottom: 2px #e6e6e6 solid;
+}
+
+.wells-selection .selection-row {
+  display: table-row;
+}
+.wells-selection .selection-row:nth-child(odd) {
+  background-color: #fafafa;
+}

@@ -139,7 +139,9 @@ class App extends React.PureComponent {
           />
         </div>
         <div className="panel-right">
-          <WellsSelection />
+          <WellsSelection
+            wells={wells}
+          />
         </div>
       </div>
     );
