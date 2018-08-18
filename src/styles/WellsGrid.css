@@ -1,0 +1,14 @@
+.wells-grid {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr;
+  grid-gap: 4px;
+}
+
+.wells-grid>.header {
+  grid-area: header;
+}
+
+.wells-grid>.well {
+  grid-area: main;
+}
