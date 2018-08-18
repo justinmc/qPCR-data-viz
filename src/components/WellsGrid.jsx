@@ -8,7 +8,7 @@ import {
 import { getLetterIndex } from '../utils/displayUtils';
 import '../styles/WellsGrid.css';
 
-export default function WellsGrid({ wells }) {
+export default function WellsGrid({ maxCycle, wells }) {
   const dimensions = getDimensions(wells);
 
   // The top numbered header grid items
@@ -68,6 +68,7 @@ export default function WellsGrid({ wells }) {
         wells.map(well => (
           <Well
             key={well.id}
+            maxCycle={maxCycle}
             well={well}
           />
         ))
@@ -77,5 +78,6 @@ export default function WellsGrid({ wells }) {
 }
 
 WellsGrid.propTypes = {
+  maxCycle: PropTypes.number.isRequired,
   wells: PropTypes.arrayOf(wellPropType).isRequired,
 };

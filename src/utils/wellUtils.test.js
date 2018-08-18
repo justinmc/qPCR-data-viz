@@ -43,3 +43,37 @@ describe('getDimensions', () => {
     });
   });
 });
+
+describe('getThresholdCycle', () => {
+  let cycles;
+
+  describe('when a cycle falls exactly on the thresholdValue', () => {
+    beforeEach(() => {
+      cycles = [
+        { cycle: 1, fluorescence: 0 },
+        { cycle: 2, fluorescence: 104 },
+        { cycle: 3, fluorescence: 5000 },
+      ];
+    });
+
+    it('returns that integer cycle', () => {
+      const thresholdCycle = wellUtils.getThresholdCycle(cycles);
+      expect(thresholdCycle).to.equal(2);
+    });
+  });
+
+  describe('when thresholdCycle is in between cycles', () => {
+    beforeEach(() => {
+      cycles = [
+        { cycle: 1, fluorescence: 0 },
+        { cycle: 2, fluorescence: 100 },
+        { cycle: 3, fluorescence: 5000 },
+      ];
+    });
+
+    it('does a simple linear interpolation between two points', () => {
+      const thresholdCycle = wellUtils.getThresholdCycle(cycles);
+      expect(thresholdCycle).to.equal(2.0008163265306123);
+    });
+  });
+});

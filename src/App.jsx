@@ -2,7 +2,10 @@ import React from 'react';
 import WellsGrid from './components/WellsGrid';
 import WellsSelection from './components/WellsSelection';
 import qpcrData from './qpcr-data.json';
-import { parseQpcrData } from './utils/wellUtils';
+import {
+  parseMaxCycles,
+  parseQpcrData,
+} from './utils/wellUtils';
 import './App.css';
 
 class App extends React.Component {
@@ -10,24 +13,27 @@ class App extends React.Component {
     super(props);
 
     this.state = {
+      maxCycle: null,
       wells: [],
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const wells = parseQpcrData(qpcrData);
     this.setState({
+      maxCycle: parseMaxCycles(qpcrData),
       wells,
     });
   }
 
   render() {
-    const { wells } = this.state;
+    const { maxCycle, wells } = this.state;
 
     return (
       <div className="App">
         <div className="panel-left">
           <WellsGrid
+            maxCycle={maxCycle}
             wells={wells}
           />
         </div>
