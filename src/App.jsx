@@ -19,13 +19,14 @@ class App extends React.PureComponent {
     this.onClickWellBound = this.onClickWell.bind(this);
 
     this.state = {
-      maxCycle: null,
+      maxCycle: null, // the highest possible cycle value
       selectionCursor: null, // the well index to shift-select from
       wells: [],
     };
   }
 
   componentWillMount() {
+    // Load in static json data, as opposed to fetching from an API etc.
     const wells = parseQpcrData(qpcrData);
     this.setState({
       maxCycle: parseMaxCycles(qpcrData),

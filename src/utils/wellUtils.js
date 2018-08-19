@@ -34,8 +34,9 @@ export function parseMaxCycles(qpcrData) {
 }
 
 /**
- * Given cycles, find the cycle where fluorescence passes the threshold value
+ * Given cycles, find the cycle where fluorescence passes the threshold value.
  * Assumes ordered cycles!
+ * thresholdValue is hardcoded.
  * @param {Cycle[]}
  * @returns {Number}
  */

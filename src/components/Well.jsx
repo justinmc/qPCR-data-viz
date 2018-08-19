@@ -4,6 +4,7 @@ import { wellPropType } from '../utils/wellUtils';
 import { getGradientValue } from '../utils/displayUtils';
 import '../styles/Well.css';
 
+// Define 2 stop colors for a simple linear gradient
 const colorStart = {
   r: 255,
   g: 255,
@@ -15,6 +16,7 @@ const colorEnd = {
   b: 155,
 };
 
+// A single colored well
 export default class Well extends React.PureComponent {
   constructor(props) {
     super(props);

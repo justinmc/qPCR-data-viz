@@ -7,6 +7,7 @@ import {
 import { wellPropType } from '../utils/wellUtils';
 import '../styles/WellsSelection.css';
 
+// The panel that shows info about the current well selection
 export default function WellsSelection({ wells }) {
   const selectedWells = wells.filter(well => well.selected);
 
