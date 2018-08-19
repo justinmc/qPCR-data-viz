@@ -2,6 +2,8 @@
 
 A frontend app that reads output data from a [qPCR machine](http://www.bio-rad.com/en-us/applications-technologies/introduction-qpcr-instrumentation?ID=LUSO5YMNI) and visualizes the data for each well.
 
+See it running live: https://justinmc.github.io/qPCR-data-viz/
+
 ![Screenshot](https://raw.githubusercontent.com/justinmc/qPCR-data-viz/master/src/screenshot.png)
 
 ## Architecture
