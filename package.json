@@ -2,6 +2,7 @@
   "name": "qPCR-data-viz",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://justinmc.github.io/qPCR-data-viz",
   "dependencies": {
     "prop-types": "^15.6.2",
     "react": "^16.4.2",
