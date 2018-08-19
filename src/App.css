@@ -1,7 +1,13 @@
 .App {
   display: flex;
   margin: 0 24px;
+  max-width: 100%;
+  overflow: hidden;
 }
 .App>.panel-left, .App>.panel-right {
   flex: 1;
+}
+
+.App>.panel-right {
+  margin-left: 32px;
 }
